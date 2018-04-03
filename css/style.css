@@ -573,9 +573,6 @@ h3 {
     margin: 30px 0 30px;
     padding: 30px;
 }
-.kakunin_btn {
-    
-}
    /* 表示領域が320px以下の場合に適用するスタイル */
 @media screen and (max-width: 420px) {
 .staff-midasisph3>h3 {
