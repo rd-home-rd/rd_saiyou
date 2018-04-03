@@ -341,7 +341,7 @@ h3 {
     font-size: 18px;
     position: relative;
     top: -200px;
-    left: 30%;
+    padding-left: 30%;
 }
 .staff-textsp {
     position: relative;
@@ -538,6 +538,43 @@ h3 {
     -webkit-background-size: contain;
     -moz-background-size: contain;
     -o-background-size: contain;
+}
+.formtitle {
+    margin: 50px 0 50px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+.kakunin {
+    text-align: center;
+    margin-bottom: 60px;
+}
+.kakunin_btn {
+    font-size: 20px;
+    display: inline-block;
+    padding: 7px 20px;
+	border-radius: 20px;
+    text-decoration: none;
+    color: #FFF;
+    background-image: -webkit-linear-gradient(45deg, #2D92E5 0%, #1E5799 100%);
+    background-image: linear-gradient(45deg, #2D92E5 0%, #1E5799 100%);
+    transition: .4s;
+    margin-top: 20px;
+}
+.kakunin_btn:hover {
+    background-image: -webkit-linear-gradient(45deg, #0B81E2 0%, #014899 100%);
+    background-image: linear-gradient(45deg, #0B81E2 0%, #014899 100%);
+    text-decoration: none;
+    color: #FFF;
+}
+.doui {
+    font-size: 18px;
+    background-color: #E6E6E6;
+    margin: 30px 0 30px;
+    padding: 30px;
+}
+.kakunin_btn {
+    
 }
    /* 表示領域が320px以下の場合に適用するスタイル */
 @media screen and (max-width: 420px) {
