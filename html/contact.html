@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>RD2019採用サイト</title>
     <meta name="description" content="ここにディスクリプション"/>
-
+{%load static%}
     <!-- Bootstrap -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css'%}" rel="stylesheet">
     <!-- stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
     <!-- jquery -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <!-- font-awesome -->
@@ -25,14 +25,17 @@
 </head>
 <body>
     <header>
-        <button type="button2" class="close">
+        <!--<button type="button2" class="close">
             <span class="bar bar1"></span>
             <span class="bar bar2"></span>
             <span class="bar bar3"></span>
         </button>
+        <nav>
+            {% include 'nav.html'%}
+        </nav>-->
         <div class="topbar">
             <ul>
-                <li><img src="images/logo.png" alt="RDロゴ"></li>
+                <li><a href="{%url 'saiyou'%}"><img src="{% static 'images/logo.png'%}" alt="RDロゴ"></a></li>
                 <li><p>RECRUITMENT</p></li>
             </ul>
         </div>
@@ -43,15 +46,16 @@
             <div class="row">
                  <div class="col-md-offset-3 col-md-6">
                     <p class="formtitle">お問い合わせフォーム</p>
-                    <form>
+                    <form method="POST">
+                        {%csrf_token%}
                         <div class="form-group has-feedback">
                             <label>氏名</label>
-                            <input type="name" class="form-control" placeholder="氏名">
+                            <input type="name" name="name_kannji" class="form-control" placeholder="氏名">
                         </div>
                         
                         <div class="form-group has-feedback">
                             <label>フリガナ</label>
-                            <input type="name" class="form-control" placeholder="フリガナ">
+                            <input type="name" name="name_hurigana" class="form-control" placeholder="フリガナ">
                         </div>
                         <br>
                         <div class="form-group has-feedback">
@@ -68,28 +72,30 @@
                         <br>
                         <div class="form-group has-feedback">
                             <label>学校名</label>
-                            <input type="name" class="form-control" placeholder="学校名">
+                            <input type="name" class="form-control" name="school" placeholder="学校名">
                         </div>
                         <br>
                         <div class="form-group has-feedback">
                             <label>TEL</label>
-                            <input type="name" class="form-control" placeholder="123-456-7890">
+                            <input type="name" class="form-control" name="tel" placeholder="123-456-7890">
                         </div>
                         <br>
                         <div class="form-group has-feedback">
                             <label>e-メール</label>
-                            <input type="name" class="form-control" placeholder="Email">
+                            <input type="email" class="form-control" name="email" placeholder="Email">
                         </div>
                         
                         <div class="form-group has-feedback">
                             <label>e-メール（確認用）</label>
-                            <input type="name" class="form-control" placeholder="Email">
+                            <input type="email" class="form-control" name="email_kakuninn" placeholder="Email">
                         </div>
                         <br>
+                        {%if not 'staff' in request.get_full_path %}
                         <div class="form-group has-feedback">
                             <label>希望する面接官</label>
-                            <select class="form-control">
-                                <option>多和田 又一郎</option>
+                            <select class="form-control" name="mennsetsukann">
+                                <option {%if 'saiyou/contact' in request.get_full_path%}selected{%endif%}>--------</option>
+                                <option {%if 'executive_interview01' in request.get_full_path%}selected{%endif%}>多和田 又一郎</option>
                                 <option>広部 貴司</option>
                                 <option>佐藤 大介</option>
                                 <option>小出 祐歌</option>
@@ -99,11 +105,13 @@
                                 <option>久保 則博</option>
                             </select>
                         </div>
-                        
+                        {%endif%}
+                        {%if not 'executive' in request.get_full_path %}
                         <div class="form-group has-feedback">
                             <label>会いたい先輩社員</label>
-                            <select class="form-control">
-                                <option>牧野 有里</option>
+                            <select class="form-control" name="sennpai">
+                                <option {%if 'saiyou/contact' in request.get_full_path%}selected{%endif%}>--------</option>
+                                <option {%if 'staff_interview01' in request.get_full_path%}selected{%endif%}>牧野 有里</option>
                                 <option>牧野 有里</option>
                                 <option>牧野 有里</option>
                                 <option>牧野 有里</option>
@@ -113,27 +121,28 @@
                                 <option>牧野 有里</option>
                             </select>
                         </div>
+                        {%endif%}
                         <br>
                         <div class="form-group">
                             <label>ご意見・ご質問等</label>
-                            <textarea rows="3" class="form-control"></textarea>
+                            <textarea rows="3" class="form-control" name="question"></textarea>
                         </div>
                         <br>
                         <div class="kakunin">
-                        <p>下記の個人情報の取扱いに関する事項についてご確認いただき、<br>
-                        同意される方は「同意する」をチェックして、「確認する」を押して下さい。</p>
-                        <br>
-                        <p><a href="">→個人情報の取扱いについて</a></p>
-                        <div class="form-group">
-                    		<div class="doui">
-                    			<div class="checkbox">
-                    				<label>
-                    					<input type="checkbox" value="checkboxA"> 個人情報の取扱に同意する
-                    				</label>
-                    			</div>
-                    		</div>
-                    		<input id="submit_button" type="submit" class="kakunin_btn" name="submit" value="確認する">
-                    	</div>
+                            <p>下記の個人情報の取扱いに関する事項についてご確認いただき、<br>
+                            同意される方は「同意する」をチェックして、「確認する」を押して下さい。</p>
+                            <br>
+                            <p><a href="">→個人情報の取扱いについて</a></p>
+                            <div class="form-group">
+                                <div class="doui">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input id="doui" type="checkbox" value="checkboxA"> 個人情報の取扱に同意する
+                                        </label>
+                                    </div>
+                                </div>
+                                <input id="submit_button" type="submit" class="kakunin_btn" name="submit" value="確認する" disabled style="opacity: 0.2">
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -152,6 +161,6 @@
             Copyright © Recruiting Design Co.,Ltd. All Rights Reserved.
         </div>
     </footer>
-    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="{% static 'js/index.js'%}"></script>
 </body>
 </html>
